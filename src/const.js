@@ -45,9 +45,32 @@ const COUNTRIES = [
   `South Korea`,
   `Italy`
 ];
+const NUMBER_TO_MONTH = {
+  '1': `January`,
+  '2': `February`,
+  '3': `March`,
+  '4': `April`,
+  '5': `May`,
+  '6': `June`,
+  '7': `July`,
+  '8': `August`,
+  '9': `September`,
+  '10': `October`,
+  '11': `November`,
+  '12': `December`
+};
+
+const EMOJIES = [
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+  `smile.png`,
+  `trophy.png`
+]
 const GENRES = [`Drama`, `Film-Noir`, `Mystery`, `Action`, `Horror`, `Musical`, `Western`];
 const LOREM_IPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 const JANUARY_01_1925_IN_MS = -1417399200000;
+const NOVEMBER_20_2019_IN_MS = 1574197200000;
+const DAY_IN_MS = 86400000;
 
-
-export {FILMS, POSTERS, GENRES, PEOPLES, COUNTRIES, LOREM_IPSUM, JANUARY_01_1925_IN_MS}
+export {FILMS, POSTERS, GENRES, PEOPLES, COUNTRIES, NUMBER_TO_MONTH, EMOJIES, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, DAY_IN_MS}
