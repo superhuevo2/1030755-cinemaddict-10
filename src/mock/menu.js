@@ -7,14 +7,16 @@ function getFilmsToFilters(filmList) {
 
   filmList.forEach((element) => {
     if (element.isInWachList) {
-      filters[watchListCount] += 1;
+      filters[`watchListCount`] += 1;
     }
     if (element.isInHistory) {
-      filters[historyCount] += 1;
+      filters[`historyCount`] += 1;
     }
     if (element.isInFavorites) {
-      filters[favoritesCount] += 1;
+      filters[`favoritesCount`] += 1;
     }
   });
-  return filter;
+  return filters;
 }
+
+export {getFilmsToFilters}

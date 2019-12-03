@@ -1,4 +1,4 @@
-import {FILMS, POSTERS, GENRES, LOREM_IPSUM, JANUARY_01_1925_IN_MS} from '../const.js';
+import {FILMS, POSTERS, GENRES, EMOJIES, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, PEOPLES} from '../const.js';
 import {getRandomInt, getRandomElement} from '../util.js';
 import {getExtraInfo} from './popup.js';
 
@@ -29,8 +29,8 @@ function getRating() {
   return `${(getRandomInt(0, 100) + 1) / 10}`;
 }
 
-function getReleaseDate() {
-  const randomDateInMs = getRandomInt(JANUARY_01_1925_IN_MS, Date.now());
+function getDate(from, to) {
+  const randomDateInMs = getRandomInt(from, to);
   return new Date(randomDateInMs);
 }
 
@@ -43,21 +43,36 @@ function getGenres() {
   return genres;
 }
 
+function getComment() {
+  return {
+    emojii: getRandomElement(EMOJIES),
+    message: getRandomElement(LOREM_IPSUM.split(`. `)),
+    name: getRandomElement(PEOPLES),
+    date: getDate(NOVEMBER_20_2019_IN_MS, Date.now())
+  };
+}
+
+function getComments() {
+  const count = getRandomInt(1, 5);
+  return (Array(...Array(count))
+    .map((element) => getComment())
+  )
+}
+
 function genCardMock() {
   return {
     name: getRandomElement(FILMS),
-    releaseDate: getReleaseDate(),
+    releaseDate: getDate(JANUARY_01_1925_IN_MS, Date.now()),
     runtime: getRuntime(),
     genres: getGenres(),
     description: getDescription(),
     poster: getRandomElement(POSTERS),
-    comments: `${getRandomInt(0, 10)} comments`,
+    comments: getComments(),
     rating: getRating(),
     isInWachList: Math.random() > 0.5,
     isInHistory: Math.random() > 0.5,
     isInFavorites: Math.random() > 0.5,
-    popup: getExtraInfo()
-
+    extraInfo: getExtraInfo()
   };
 }
 

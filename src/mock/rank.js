@@ -1,4 +1,4 @@
-export function getRank(filmCount) {
+function getRank(filmCount) {
   if (filmCount <= 0) {
     return ``;
   } else if (0 < filmCount <= 10) {
@@ -9,3 +9,5 @@ export function getRank(filmCount) {
     return `movie buff`;
   }
 };
+
+export {getRank}

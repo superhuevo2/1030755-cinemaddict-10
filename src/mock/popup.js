@@ -14,8 +14,10 @@ function getExtraInfo() {
     director: getPeoples(1),
     writers: getPeoples(2),
     actors: getPeoples(5),
-    country: getRandomElement(COUNTRIES)
+    country: getRandomElement(COUNTRIES),
+    age: `${getRandomInt(0, 19)}+`
   };
 }
+
 
 export {getExtraInfo}
