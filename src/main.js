@@ -46,23 +46,17 @@ for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD; i++) {
   renderCard(createCard(films[i]), cardsContainer);
 };
 
-const containerToSortedFilms = new Map();
 const topFilmsContainers = document.querySelectorAll(`.films-list--extra .films-list__container`);
 
 
-topFilmsList.forEach((element, i) => {
+topFilmsList.forEach((element, index) => {
   if (element.length > 0) {
-    containerToSortedFilms.set(topFilmsContainers[i], topFilmsList[i])
+    for (let i = 0; i < NUMBER_OF_CARDS_IN_EXTRA; i++) {
+      render(createCard(element[i]), topFilmsContainers[index]);
+    }
   }
 });
 
-for (let [key, value] of containerToSortedFilms) {
-  if (value.length > 0) {
-    for (let i = 0; i < NUMBER_OF_CARDS_IN_EXTRA; i++) {
-      render(createCard(value[i]), key);
-    }
-  }
-}
 
 const filmsList = document.querySelector(`.films-list`);
 render(createShowMoreButton(), filmsList);
