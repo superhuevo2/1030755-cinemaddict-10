@@ -19,4 +19,4 @@ function getFilmsToFilters(filmList) {
   return filters;
 }
 
-export {getFilmsToFilters}
+export {getFilmsToFilters};

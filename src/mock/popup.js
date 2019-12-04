@@ -4,10 +4,10 @@ import {getRandomInt, getRandomElement} from '../util.js';
 function getPeoples(count) {
   const peoples = new Set();
   while (peoples.size < count) {
-    peoples.add(PEOPLES[getRandomInt(0, PEOPLES.length)])
-  };
+    peoples.add(PEOPLES[getRandomInt(0, PEOPLES.length)]);
+  }
   return peoples;
-};
+}
 
 function getExtraInfo() {
   return {
@@ -20,4 +20,4 @@ function getExtraInfo() {
 }
 
 
-export {getExtraInfo}
+export {getExtraInfo};

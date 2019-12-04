@@ -1,9 +1,10 @@
-import {NUMBER_TO_MONTH, DAY_IN_MS} from '../const.js';
-import {formatTime} from '../util.js';
+import {NUMBER_TO_MONTH, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS} from '../const.js';
 
 function createStr(setObj) {
   let string = ``;
-  setObj.forEach((element) => string += element + `, `)
+  setObj.forEach(function (element) {
+    string += element + `, `;
+  });
   string.slice(0, -2);
   return string;
 }
@@ -12,7 +13,7 @@ function createReleaseDate(date) {
   const day = date.getDate();
   const month = NUMBER_TO_MONTH[date.getMonth()];
   const year = date.getFullYear();
-  return `${day} ${month} ${year}`
+  return `${day} ${month} ${year}`;
 }
 
 function createGenresStr(genres) {
@@ -22,7 +23,7 @@ function createGenresStr(genres) {
       `<span class="film-details__genre">${element}</span>`
     );
     fragment += template;
-  })
+  });
   return fragment;
 }
 
@@ -37,24 +38,32 @@ function createFilmDetails(infoDict) {
         </tr>`
       );
       fragment += template;
-    };
-  };
+    }
+  }
   return fragment;
 }
 
 function formatDate(date) {
   const interval = Date.now() - date;
-  const daysAgo = parseInt(interval / DAY_IN_MS);
 
-  if (daysAgo > 10) {
-    const time = formatTime(date);
-    return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${time}`
+  if (interval < MINUTE_IN_MS) {
+    return `now`;
+  } else if (interval <= MINUTE_IN_MS && interval < THREE_MIN_IN_MS) {
+    return `a minute ago`;
+  } else if (interval >= THREE_MIN_IN_MS && interval < HOUR_IN_MS) {
+    return `a few minutes ago`;
+  } else if (interval >= HOUR_IN_MS && interval < TWO_HOUR_IN_MS) {
+    return `a hour ago`;
+  } else if (interval >= TWO_HOUR_IN_MS && interval < DAY_IN_MS) {
+    return `a few hours ago`;
+  } else {
+    const daysAgo = parseInt(interval / DAY_IN_MS, 10);
+    return `${daysAgo} days ago`;
   }
-  return `${daysAgo} days ago`
 }
 
 function createComments(comments) {
-  let fragment = ``
+  let fragment = ``;
   comments.forEach((element) => {
     const dateStr = formatDate(element.date);
     const template = (
@@ -71,9 +80,9 @@ function createComments(comments) {
         </p>
       </div>
     </li>`
-    )
+    );
     fragment += template;
-  })
+  });
   return fragment;
 }
 
@@ -85,7 +94,7 @@ const createPopup = function (film) {
   const directorStr = createStr(director);
   const writersStr = createStr(writers);
   const actorsStr = createStr(actors);
-  const releaseDateStr = createReleaseDate(releaseDate)
+  const releaseDateStr = createReleaseDate(releaseDate);
   const genresFragment = createGenresStr(genres);
 
   const filmDetailsDict = {
@@ -96,7 +105,7 @@ const createPopup = function (film) {
     'Runtime': runtime,
     'Country': country,
     'Genres': genresFragment
-  }
+  };
 
   const filmDetails = createFilmDetails(filmDetailsDict);
   const comentsCount = commentsList.length;
@@ -110,7 +119,7 @@ const createPopup = function (film) {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+              <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
 
               <p class="film-details__age">${age}</p>
             </div>

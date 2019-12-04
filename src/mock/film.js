@@ -39,7 +39,7 @@ function getGenres() {
   const genres = new Set();
   while (genres.size < count) {
     genres.add(getRandomElement(GENRES));
-  };
+  }
   return genres;
 }
 
@@ -55,8 +55,8 @@ function getComment() {
 function getComments() {
   const count = getRandomInt(1, 5);
   return (Array(...Array(count))
-    .map((element) => getComment())
-  )
+    .map(() => getComment())
+  );
 }
 
 function genCardMock() {

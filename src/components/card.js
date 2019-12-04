@@ -4,10 +4,10 @@ const createCard = function (film) {
   const {name, releaseDate, runtime, genres, description, poster, comments, rating} = film;
   const year = releaseDate.getFullYear();
   const shortDescription = description.length > MAX_DESCRIPTION_LENGTH
-    ? description.slice(0, MAX_DESCRIPTION_LENGTH)+ `...`
+    ? description.slice(0, MAX_DESCRIPTION_LENGTH) + `...`
     : description;
   const genre = Array.from(genres)[0];
-  const commentsStr = `${comments.length} comments`
+  const commentsStr = `${comments.length} comments`;
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${name}</h3>
