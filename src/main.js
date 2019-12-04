@@ -35,11 +35,12 @@ const main = document.querySelector(`.main`);
 render(createFilmMenu(filmsToFilter), main);
 render(createFilter(), main);
 
-const topRatedFilms = getTopRatingFilms(films);
-const topCommentedFilms = getTopCommentsFilms(films);
-const topFilmsList = [topRatedFilms, topCommentedFilms];
+const topFilmsList = [
+  getTopRatingFilms(films),
+  getTopCommentsFilms(films)
+];
 
-render(createFilmsContainer(topFilmsList[0], topFilmsList[1]), main);
+render(createFilmsContainer(topFilmsList), main);
 
 const cardsContainer = document.querySelector(`.films-list .films-list__container`);
 for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD; i++) {

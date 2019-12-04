@@ -8,13 +8,13 @@ const createTopFilmsContainer = function (title) {
 };
 
 
-const createFilmsContainer = function (topRateList, topCommentsList) {
+const createFilmsContainer = function (topFilmList) {
   let topRatingContainer = ``;
   let topCommentsContainer = ``;
-  if (topRateList.length > 0) {
+  if (topFilmList[0].length > 0) {
     topRatingContainer = createTopFilmsContainer(`Top rated`);
   }
-  if (topCommentsList.length > 0) {
+  if (topFilmList[1].length > 0) {
     topCommentsContainer = createTopFilmsContainer(`Most commented`);
   }
   return (
