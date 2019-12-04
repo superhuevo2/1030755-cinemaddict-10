@@ -37,7 +37,9 @@ render(createFilter(), main);
 
 const topRatedFilms = getTopRatingFilms(films);
 const topCommentedFilms = getTopCommentsFilms(films);
-render(createFilmsContainer(topRatedFilms, topCommentedFilms), main);
+const topFilmsList = [topRatedFilms, topCommentedFilms];
+
+render(createFilmsContainer(topFilmsList[0], topFilmsList[1]), main);
 
 const cardsContainer = document.querySelector(`.films-list .films-list__container`);
 for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD; i++) {
@@ -47,18 +49,12 @@ for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD; i++) {
 const containerToSortedFilms = new Map();
 const topFilmsContainers = document.querySelectorAll(`.films-list--extra .films-list__container`);
 
-switch (topFilmsContainers.length) {
-  case 0:
-    break;
-  case 1:
-      topRatedFilms.length === 1 ? containerToSortedFilms.set(topFilmsContainers[0], topRatedFilms)
-        : containerToSortedFilms.set(topFilmsContainers[0], topCommentedFilms)
-    break;
-  default:
-    containerToSortedFilms.set(topFilmsContainers[0], topRatedFilms);
-    containerToSortedFilms.set(topFilmsContainers[1], topCommentedFilms);
-    break;
-}
+
+topFilmsList.forEach((element, i) => {
+  if (element.length > 0) {
+    containerToSortedFilms.set(topFilmsContainers[i], topFilmsList[i])
+  }
+});
 
 for (let [key, value] of containerToSortedFilms) {
   if (value.length > 0) {
