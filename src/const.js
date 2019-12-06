@@ -66,7 +66,13 @@ const EMOJIES = [
   `sleeping.png`,
   `smile.png`,
   `trophy.png`
-]
+];
+const MinWatchedFilmsForRank = {
+  NOVICE: 1,
+  FAN: 11,
+  MOVIE_BUFF: 21
+};
+const MAX_DESCRIPTION_LENGTH = 140;
 const GENRES = [`Drama`, `Film-Noir`, `Mystery`, `Action`, `Horror`, `Musical`, `Western`];
 const LOREM_IPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 const JANUARY_01_1925_IN_MS = -1417399200000;
@@ -77,4 +83,4 @@ const HOUR_IN_MS = 3600000;
 const THREE_MIN_IN_MS = 18000;
 const MINUTE_IN_MS = 60000;
 
-export {FILMS, POSTERS, GENRES, PEOPLES, COUNTRIES, NUMBER_TO_MONTH, EMOJIES, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS}
+export {FILMS, POSTERS, GENRES, PEOPLES, COUNTRIES, NUMBER_TO_MONTH, EMOJIES, MAX_DESCRIPTION_LENGTH, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS, MinWatchedFilmsForRank};

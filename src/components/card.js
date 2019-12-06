@@ -1,4 +1,4 @@
-const MAX_DESCRIPTION_LENGTH = 140;
+import {MAX_DESCRIPTION_LENGTH} from '../const.js';
 
 const createCard = function (film) {
   const {name, releaseDate, runtime, genres, description, poster, comments, rating} = film;

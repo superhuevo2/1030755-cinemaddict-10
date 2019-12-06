@@ -1,22 +1,22 @@
 import {NUMBER_TO_MONTH, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS} from '../const.js';
 
-function createStr(setObj) {
+const createStr = function (setObj) {
   let string = ``;
   setObj.forEach(function (element) {
     string += element + `, `;
   });
   string.slice(0, -2);
   return string;
-}
+};
 
-function createReleaseDate(date) {
+const createReleaseDate = function (date) {
   const day = date.getDate();
   const month = NUMBER_TO_MONTH[date.getMonth()];
   const year = date.getFullYear();
   return `${day} ${month} ${year}`;
-}
+};
 
-function createGenresStr(genres) {
+const createGenresStr = function (genres) {
   let fragment = ``;
   genres.forEach((element) => {
     const template = (
@@ -25,9 +25,9 @@ function createGenresStr(genres) {
     fragment += template;
   });
   return fragment;
-}
+};
 
-function createFilmDetails(infoDict) {
+const createFilmDetails = function (infoDict) {
   let fragment = ``;
   for (let key in infoDict) {
     if (infoDict.hasOwnProperty(key)) {
@@ -41,9 +41,9 @@ function createFilmDetails(infoDict) {
     }
   }
   return fragment;
-}
+};
 
-function formatDate(date) {
+const formatDate = function (date) {
   const interval = Date.now() - date;
 
   if (interval < MINUTE_IN_MS) {
@@ -60,9 +60,9 @@ function formatDate(date) {
     const daysAgo = parseInt(interval / DAY_IN_MS, 10);
     return `${daysAgo} days ago`;
   }
-}
+};
 
-function createComments(comments) {
+const createComments = function (comments) {
   let fragment = ``;
   comments.forEach((element) => {
     const dateStr = formatDate(element.date);
@@ -84,7 +84,7 @@ function createComments(comments) {
     fragment += template;
   });
   return fragment;
-}
+};
 
 const createPopup = function (film) {
   const {name, releaseDate, runtime, genres, description, poster, rating} = film;

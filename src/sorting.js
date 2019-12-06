@@ -2,31 +2,31 @@ import {getRandomElement} from "./util.js";
 
 const MAX_FILMS = 2;
 
-function getComments(element) {
+const getComments = function (element) {
   return element.comments.length;
-}
+};
 
-function compareCommentsFromHigh(first, last) {
+const compareCommentsFromHigh = function (first, last) {
   return Number(last.comments.length) - Number(first.comments.length);
-}
+};
 
-function filterTopCommentsFilms(element, maxElement) {
+const filterTopCommentsFilms = function (element, maxElement) {
   return element.comments.length === maxElement.comments.length;
-}
+};
 
-function getRating(element) {
+const getRating = function (element) {
   return element.rating;
-}
+};
 
-function compareRatingFromHigh(first, last) {
+const compareRatingFromHigh = function (first, last) {
   return Number(last.rating) - Number(first.rating);
-}
+};
 
-function filterTopRatingFilms(element, maxElement) {
+const filterTopRatingFilms = function (element, maxElement) {
   return element.rating === maxElement.rating;
-}
+};
 
-function getTopFilms(filmList, countFunction, sortFunction, filterFunction) {
+const getTopFilms = function (filmList, countFunction, sortFunction, filterFunction) {
   let sortedFilms = Array.from(filmList).sort(sortFunction);
   if (countFunction(sortedFilms[0]) === 0) {
     return [];
@@ -36,22 +36,22 @@ function getTopFilms(filmList, countFunction, sortFunction, filterFunction) {
     });
     if (topFilms.length >= MAX_FILMS) {
       const randomFilms = new Set();
-      while (randomFilms.size < 2) {
+      while (randomFilms.size < MAX_FILMS) {
         randomFilms.add(getRandomElement(topFilms));
       }
       return Array.from(randomFilms);
     } else {
-      return sortedFilms.slice(0, 2);
+      return sortedFilms.slice(0, MAX_FILMS);
     }
   }
-}
+};
 
-function getTopCommentsFilms(filmList) {
+const getTopCommentsFilms = function (filmList) {
   return getTopFilms(filmList, getComments, compareCommentsFromHigh, filterTopCommentsFilms);
-}
+};
 
-function getTopRatingFilms(filmList) {
+const getTopRatingFilms = function (filmList) {
   return getTopFilms(filmList, getRating, compareRatingFromHigh, filterTopRatingFilms);
-}
+};
 
 export {getTopCommentsFilms, getTopRatingFilms};
