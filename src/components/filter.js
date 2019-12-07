@@ -1,3 +1,5 @@
+import {createElement} from '../util.js';
+
 const createFilter = function () {
   return (
     `<ul class="sort">
@@ -8,4 +10,26 @@ const createFilter = function () {
   );
 };
 
-export {createFilter};
+class Filter {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilter();
+  }
+
+  getElement() {
+    if (!this._element) {
+      const template = this.getTemplate();
+      this._element = createElement(template);
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default Filter

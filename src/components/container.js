@@ -1,3 +1,5 @@
+import {createElement} from '../util.js';
+
 const createTopFilmsContainer = function (title) {
   return (
     `<section class="films-list--extra">
@@ -29,4 +31,27 @@ const createFilmsContainer = function (topFilmList) {
   );
 };
 
-export {createFilmsContainer};
+class FilmsContainer {
+  constructor(topFilmList) {
+    this._filmList = topFilmList;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmsContainer(this._filmList);
+  }
+
+  getElement() {
+    if (!this._element) {
+      const template = this.getTemplate();
+      this._element = createElement(template);
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default FilmsContainer
