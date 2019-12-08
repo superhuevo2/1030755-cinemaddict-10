@@ -59,7 +59,7 @@ topFilmsList.forEach((element, index) => {
       const popup = new Popup(film);
       const popupElement = popup.getElement();
       renderCard(cardElement, popupElement, topFilmsContainers[index]);
-    })
+    });
   }
 });
 
@@ -71,8 +71,11 @@ render(showMoreButtonElement, filmsList);
 
 showMoreButtonElement.addEventListener(`click`, function () {
   for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD && cardCounter < films.length; i++) {
-    const cardElement = cardList[cardCounter].getElement();
-    renderCard(cardElement, cardsContainer);
+    const card = new Card(films[cardCounter]);
+    const cardElement = card.getElement();
+    const popup = new Popup(films[cardCounter]);
+    const popupElement = popup.getElement();
+    renderCard(cardElement, popupElement, cardsContainer);
     cardCounter++;
   }
   if (cardCounter === films.length) {
