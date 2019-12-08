@@ -1,18 +1,40 @@
+import {KeyCode} from './const.js';
+
 const render = function (element, container) {
   container.append(element);
 };
 
 const renderCard = function (card, popup, container) {
   const body = document.querySelector(`body`);
+
   const openPopupHandler = function (evt) {
     evt.preventDefault();
     render(popup, body);
+
+    const closePopup = function (evt) {
+      evt.preventDefault();
+      body.removeChild(popup);
+    }
+
+    const escDownHandler = function (closeEvt) {
+      if (closeEvt.keyCode === KeyCode.ESCAPE) {
+        closePopup(closeEvt);
+        document.removeEventListener(`keydown`, escDownHandler)
+      }
+    }
+
+
     const closeButton = popup.querySelector(`.film-details__close-btn`);
     closeButton.addEventListener(`click`, function (closeEvt) {
-      closeEvt.preventDefault();
-      popup.remove();
+      closePopup(closeEvt);
+      document.removeEventListener(`keydown`, escDownHandler);
     })
+
+    document.addEventListener(`keydown`, escDownHandler)
   }
+
+
+
 
   render(card, container);
   const title = card.querySelector(`.film-card__title`);
