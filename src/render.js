@@ -1,5 +1,3 @@
-
-
 const render = function (element, container) {
   container.append(element);
 };
@@ -10,8 +8,8 @@ const renderCard = function (card, popup, container) {
     evt.preventDefault();
     render(popup, body);
     const closeButton = popup.querySelector(`.film-details__close-btn`);
-    closeButton.addEventListener(`click`, function (evt) {
-      evt.preventDefault();
+    closeButton.addEventListener(`click`, function (closeEvt) {
+      closeEvt.preventDefault();
       popup.remove();
     })
   }

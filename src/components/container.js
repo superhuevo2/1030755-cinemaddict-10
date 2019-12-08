@@ -54,4 +54,4 @@ class FilmsContainer {
   }
 }
 
-export default FilmsContainer
+export default FilmsContainer;
