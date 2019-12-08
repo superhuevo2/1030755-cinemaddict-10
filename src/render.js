@@ -11,29 +11,27 @@ const renderCard = function (card, popup, container) {
     evt.preventDefault();
     render(popup, body);
 
-    const closePopup = function (evt) {
-      evt.preventDefault();
+    const closePopup = function (closeEvt) {
+      closeEvt.preventDefault();
       body.removeChild(popup);
-    }
+    };
 
     const escDownHandler = function (closeEvt) {
       if (closeEvt.keyCode === KeyCode.ESCAPE) {
         closePopup(closeEvt);
-        document.removeEventListener(`keydown`, escDownHandler)
+        document.removeEventListener(`keydown`, escDownHandler);
       }
-    }
+    };
 
 
     const closeButton = popup.querySelector(`.film-details__close-btn`);
     closeButton.addEventListener(`click`, function (closeEvt) {
       closePopup(closeEvt);
       document.removeEventListener(`keydown`, escDownHandler);
-    })
+    });
 
-    document.addEventListener(`keydown`, escDownHandler)
-  }
-
-
+    document.addEventListener(`keydown`, escDownHandler);
+  };
 
 
   render(card, container);
@@ -42,7 +40,7 @@ const renderCard = function (card, popup, container) {
   const poster = card.querySelector(`.film-card__poster`);
   poster.addEventListener(`click`, openPopupHandler);
   const commentsLink = card.querySelector(`.film-card__comments`);
-  commentsLink.addEventListener(`click`, openPopupHandler)
+  commentsLink.addEventListener(`click`, openPopupHandler);
 };
 
-export {render, renderCard}
+export {render, renderCard};

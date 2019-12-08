@@ -15,16 +15,16 @@ const createFilmListContainer = function () {
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
       <div class="films-list__container"></div>
     </section>`
-  )
-}
+  );
+};
 
 const createNoFilmsMessage = function () {
   return (
     `<section class="films-list">
       <h2 class="films-list__title">There are no movies in our database</h2>
     </section>`
-  )
-}
+  );
+};
 
 const createFilmsContainer = function (filmListLength, topFilmListLength) {
   let topRatingContainer = ``;
