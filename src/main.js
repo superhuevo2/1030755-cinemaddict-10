@@ -1,4 +1,5 @@
 import {getTopCommentsFilms, getTopRatingFilms} from './sorting.js';
+import {render, renderCard} from './render.js';
 import Rank from "./components/rank.js";
 import Menu from "./components/menu.js";
 import Filter from "./components/filter.js";
@@ -9,36 +10,12 @@ import Popup from "./components/popup.js";
 import {genCardMockList} from "./mock/film.js";
 
 const NUMBER_OF_CARDS_IN_ONE_LOAD = 5;
-const NUMBER_OF_CARDS_IN_EXTRA = 2;
 const FILMS_COUNT = 16;
 const WATCHED_FILMS = 10;
 
 const films = genCardMockList(FILMS_COUNT);
 let cardCounter = 0;
 
-const render = function (element, container) {
-  container.append(element);
-};
-const renderCard = function (card, popup, container) {
-  const body = document.querySelector(`body`);
-  function openPopupHandler(evt) {
-    evt.preventDefault();
-    render(popup, body);
-    const closeButton = popup.querySelector(`.film-details__close-btn`);
-    closeButton.addEventListener(`click`, function (evt) {
-      evt.preventDefault();
-      popup.remove();
-    })
-  }
-
-  render(card, container);
-  const title = card.querySelector(`.film-card__title`);
-  title.addEventListener(`click`, openPopupHandler);
-  const poster = card.querySelector(`.film-card__poster`);
-  poster.addEventListener(`click`, openPopupHandler);
-  const commentsLink = card.querySelector(`.film-card__comments`);
-  commentsLink.addEventListener(`click`, openPopupHandler)
-};
 
 const header = document.querySelector(`.header`);
 const rank = new Rank(WATCHED_FILMS);
