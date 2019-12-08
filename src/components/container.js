@@ -9,22 +9,41 @@ const createTopFilmsContainer = function (title) {
   );
 };
 
+const createFilmListContainer = function () {
+  return (
+    `<section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+      <div class="films-list__container"></div>
+    </section>`
+  )
+}
 
-const createFilmsContainer = function (topFilmList) {
+const createNoFilmsMessage = function () {
+  return (
+    `<section class="films-list">
+      <h2 class="films-list__title">There are no movies in our database</h2>
+    </section>`
+  )
+}
+
+const createFilmsContainer = function (filmListLength, topFilmListLength) {
   let topRatingContainer = ``;
   let topCommentsContainer = ``;
-  if (topFilmList[0].length > 0) {
-    topRatingContainer = createTopFilmsContainer(`Top rated`);
-  }
-  if (topFilmList[1].length > 0) {
-    topCommentsContainer = createTopFilmsContainer(`Most commented`);
+  let filmListContainer = ``;
+  if (filmListLength > 0) {
+    filmListContainer = createFilmListContainer();
+    if (topFilmListLength[0] > 0) {
+      topRatingContainer = createTopFilmsContainer(`Top rated`);
+    }
+    if (topFilmListLength[1] > 0) {
+      topCommentsContainer = createTopFilmsContainer(`Most commented`);
+    }
+  } else {
+    filmListContainer = createNoFilmsMessage();
   }
   return (
     `<section class="films">
-      <section class="films-list">
-        <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-        <div class="films-list__container"></div>
-      </section>
+      ${filmListContainer}
       ${topRatingContainer}
       ${topCommentsContainer}
     </section>`
@@ -32,13 +51,14 @@ const createFilmsContainer = function (topFilmList) {
 };
 
 class FilmsContainer {
-  constructor(topFilmList) {
-    this._filmList = topFilmList;
+  constructor(filmList, topFilmList) {
+    this._filmListLength = filmList.length;
+    this._topFilmListLength = [topFilmList[0].length, topFilmList[0].length];
     this._element = null;
   }
 
   getTemplate() {
-    return createFilmsContainer(this._filmList);
+    return createFilmsContainer(this._filmListLength, this._topFilmListLength);
   }
 
   getElement() {
