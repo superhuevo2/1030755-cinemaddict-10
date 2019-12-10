@@ -1,4 +1,5 @@
 import {MAX_DESCRIPTION_LENGTH} from '../const.js';
+import {createElement} from '../util.js';
 
 const createCard = function (film) {
   const {name, releaseDate, runtime, genres, description, poster, comments, rating} = film;
@@ -29,4 +30,31 @@ const createCard = function (film) {
   );
 };
 
-export {createCard};
+class Card {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCard(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      const template = this.getTemplate();
+      this._element = createElement(template);
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+
+  getFilmInfo() {
+    return this._film;
+  }
+}
+
+export default Card;

@@ -1,13 +1,5 @@
 import {NUMBER_TO_MONTH, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS} from '../const.js';
-
-const createStr = function (setObj) {
-  let string = ``;
-  setObj.forEach(function (element) {
-    string += element + `, `;
-  });
-  string.slice(0, -2);
-  return string;
-};
+import {createElement} from '../util.js';
 
 const createReleaseDate = function (date) {
   const day = date.getDate();
@@ -91,9 +83,9 @@ const createPopup = function (film) {
   const {director, writers, actors, country, age} = film[`extraInfo`];
   const commentsList = film[`comments`];
 
-  const directorStr = createStr(director);
-  const writersStr = createStr(writers);
-  const actorsStr = createStr(actors);
+  const directorStr = Array.from(director).join(`, `);
+  const writersStr = Array.from(writers).join(`, `);
+  const actorsStr = Array.from(actors).join(`, `);
   const releaseDateStr = createReleaseDate(releaseDate);
   const genresFragment = createGenresStr(genres);
 
@@ -202,4 +194,32 @@ const createPopup = function (film) {
   );
 };
 
-export {createPopup};
+
+class Popup {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopup(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      const template = this.getTemplate();
+      this._element = createElement(template);
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+
+  getFilmInfo() {
+    return this._film;
+  }
+}
+
+export default Popup;

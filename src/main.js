@@ -1,67 +1,84 @@
 import {getTopCommentsFilms, getTopRatingFilms} from './sorting.js';
-import {createRank} from "./components/rank.js";
-import {createFilmMenu} from "./components/menu.js";
-import {createFilter} from "./components/filter.js";
-import {createFilmsContainer} from "./components/container.js";
-import {createCard} from "./components/card.js";
-import {createShowMoreButton} from "./components/button.js";
-import {createPopup} from "./components/popup.js";
+import {render, renderCard} from './render.js';
+import Rank from "./components/rank.js";
+import Menu from "./components/menu.js";
+import Filter from "./components/filter.js";
+import FilmsContainer from "./components/container.js";
+import Card from "./components/card.js";
+import Button from "./components/button.js";
+import Popup from "./components/popup.js";
 import {genCardMockList} from "./mock/film.js";
 
 const NUMBER_OF_CARDS_IN_ONE_LOAD = 5;
-const NUMBER_OF_CARDS_IN_EXTRA = 2;
 const FILMS_COUNT = 16;
 const WATCHED_FILMS = 10;
 
 const films = genCardMockList(FILMS_COUNT);
 let cardCounter = 0;
 
-const render = function (element, container) {
-  container.insertAdjacentHTML(`beforeend`, element);
-};
-const renderCard = function (element, container) {
-  render(element, container);
-  cardCounter++;
-};
 
 const header = document.querySelector(`.header`);
-render(createRank(WATCHED_FILMS), header);
+const rank = new Rank(WATCHED_FILMS);
+const rankElement = rank.getElement();
+render(rankElement, header);
 
 const main = document.querySelector(`.main`);
-render(createFilmMenu(films), main);
-render(createFilter(), main);
+const menu = new Menu(films);
+const menuElement = menu.getElement();
+render(menuElement, main);
+
+const filter = new Filter();
+const filterElement = filter.getElement();
+render(filterElement, main);
 
 const topFilmsList = [
   getTopRatingFilms(films),
   getTopCommentsFilms(films)
 ];
-render(createFilmsContainer(topFilmsList), main);
+
+const filmsContainer = new FilmsContainer(topFilmsList);
+const filmsContainerElement = filmsContainer.getElement();
+render(filmsContainerElement, main);
 
 const cardsContainer = document.querySelector(`.films-list .films-list__container`);
 for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD; i++) {
-  renderCard(createCard(films[i]), cardsContainer);
+  const card = new Card(films[cardCounter]);
+  const cardElement = card.getElement();
+  const popup = new Popup(films[cardCounter]);
+  const popupElement = popup.getElement();
+  renderCard(cardElement, popupElement, cardsContainer);
+  cardCounter++;
 }
 
 const topFilmsContainers = document.querySelectorAll(`.films-list--extra .films-list__container`);
 topFilmsList.forEach((element, index) => {
   if (element.length > 0) {
     element.forEach((film) => {
-      render(createCard(film), topFilmsContainers[index]);
-    })
+      const card = new Card(film);
+      const cardElement = card.getElement();
+      const popup = new Popup(film);
+      const popupElement = popup.getElement();
+      renderCard(cardElement, popupElement, topFilmsContainers[index]);
+    });
   }
 });
 
 const filmsList = document.querySelector(`.films-list`);
-render(createShowMoreButton(), filmsList);
-const body = document.querySelector(`body`);
-render(createPopup(films[0]), body);
+const showMoreButton = new Button();
+const showMoreButtonElement = showMoreButton.getElement();
+render(showMoreButtonElement, filmsList);
 
-const showMoreButton = document.querySelector(`.films-list__show-more`);
-showMoreButton.addEventListener(`click`, function () {
+
+showMoreButtonElement.addEventListener(`click`, function () {
   for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD && cardCounter < films.length; i++) {
-    renderCard(createCard(films[cardCounter]), cardsContainer);
+    const card = new Card(films[cardCounter]);
+    const cardElement = card.getElement();
+    const popup = new Popup(films[cardCounter]);
+    const popupElement = popup.getElement();
+    renderCard(cardElement, popupElement, cardsContainer);
+    cardCounter++;
   }
   if (cardCounter === films.length) {
-    showMoreButton.remove();
+    showMoreButtonElement.remove();
   }
 });

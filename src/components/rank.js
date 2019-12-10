@@ -1,4 +1,5 @@
 import {MinWatchedFilmsForRank} from '../const.js';
+import {createElement} from '../util.js';
 
 
 const getRank = function (filmCount) {
@@ -25,4 +26,27 @@ const createRank = function (filmCount) {
   );
 };
 
-export {createRank};
+class Rank {
+  constructor(filmCount) {
+    this._count = filmCount;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createRank(this._count);
+  }
+
+  getElement() {
+    if (!this._element) {
+      const template = this.getTemplate();
+      this._element = createElement(template);
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default Rank;
