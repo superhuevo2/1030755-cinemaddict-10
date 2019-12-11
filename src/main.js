@@ -31,45 +31,18 @@ const filter = new Filter();
 const filterElement = filter.getElement();
 render(filterElement, main);
 
+
 const topFilmsList = [
   getTopRatingFilms(films),
   getTopCommentsFilms(films)
 ];
 
-const filmsContainer = new FilmsContainer(topFilmsList);
+const filmsContainer = new FilmsContainer(films, topFilmsList);
 const filmsContainerElement = filmsContainer.getElement();
 render(filmsContainerElement, main);
 
-const cardsContainer = document.querySelector(`.films-list .films-list__container`);
-for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD; i++) {
-  const card = new Card(films[cardCounter]);
-  const cardElement = card.getElement();
-  const popup = new Popup(films[cardCounter]);
-  const popupElement = popup.getElement();
-  renderCard(cardElement, popupElement, cardsContainer);
-  cardCounter++;
-}
-
-const topFilmsContainers = document.querySelectorAll(`.films-list--extra .films-list__container`);
-topFilmsList.forEach((element, index) => {
-  if (element.length > 0) {
-    element.forEach((film) => {
-      const card = new Card(film);
-      const cardElement = card.getElement();
-      const popup = new Popup(film);
-      const popupElement = popup.getElement();
-      renderCard(cardElement, popupElement, topFilmsContainers[index]);
-    });
-  }
-});
-
-const filmsList = document.querySelector(`.films-list`);
-const showMoreButton = new Button();
-const showMoreButtonElement = showMoreButton.getElement();
-render(showMoreButtonElement, filmsList);
-
-
-showMoreButtonElement.addEventListener(`click`, function () {
+if (films.length > 0) {
+  const cardsContainer = document.querySelector(`.films-list .films-list__container`);
   for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD && cardCounter < films.length; i++) {
     const card = new Card(films[cardCounter]);
     const cardElement = card.getElement();
@@ -78,7 +51,38 @@ showMoreButtonElement.addEventListener(`click`, function () {
     renderCard(cardElement, popupElement, cardsContainer);
     cardCounter++;
   }
-  if (cardCounter === films.length) {
-    showMoreButtonElement.remove();
-  }
-});
+
+  const topFilmsContainers = document.querySelectorAll(`.films-list--extra .films-list__container`);
+  topFilmsList.forEach((element, index) => {
+    if (element.length > 0) {
+      element.forEach((film) => {
+        const card = new Card(film);
+        const cardElement = card.getElement();
+        const popup = new Popup(film);
+        const popupElement = popup.getElement();
+        renderCard(cardElement, popupElement, topFilmsContainers[index]);
+      });
+    }
+  });
+
+  const filmsList = document.querySelector(`.films-list`);
+  const showMoreButton = new Button();
+  const showMoreButtonElement = showMoreButton.getElement();
+  render(showMoreButtonElement, filmsList);
+
+
+  showMoreButtonElement.addEventListener(`click`, function () {
+    for (let i = 0; i < NUMBER_OF_CARDS_IN_ONE_LOAD && cardCounter < films.length; i++) {
+      const card = new Card(films[cardCounter]);
+      const cardElement = card.getElement();
+      const popup = new Popup(films[cardCounter]);
+      const popupElement = popup.getElement();
+      renderCard(cardElement, popupElement, cardsContainer);
+      cardCounter++;
+    }
+    if (cardCounter === films.length) {
+      showMoreButtonElement.remove();
+    }
+  });
+}
+

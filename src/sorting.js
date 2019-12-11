@@ -27,6 +27,9 @@ const filterTopRatingFilms = function (element, maxElement) {
 };
 
 const getTopFilms = function (filmList, countFunction, sortFunction, filterFunction) {
+  if (filmList.length === 0) {
+    return [];
+  }
   let sortedFilms = Array.from(filmList).sort(sortFunction);
   if (countFunction(sortedFilms[0]) === 0) {
     return [];
