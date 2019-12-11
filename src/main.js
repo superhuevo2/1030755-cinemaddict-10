@@ -56,13 +56,14 @@ if (films.length > 0) {
     const showMoreButtonElement = showMoreButton.getElement();
     render(showMoreButton, filmListElement);
 
-    showMoreButtonElement.addEventListener(`click`, function () {
+    const showMoreClickHandler = function () {
       renderCards(films, allFilmsContainer, cardCounter, NUMBER_OF_CARDS_IN_ONE_LOAD);
       cardCounter += NUMBER_OF_CARDS_IN_ONE_LOAD;
       if (cardCounter >= films.length) {
         showMoreButtonElement.remove();
       }
-    });
+    };
+    showMoreButton.setClickHandler(showMoreClickHandler);
   }
 }
 

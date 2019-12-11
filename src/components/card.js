@@ -36,6 +36,17 @@ class Card extends AbstractComponent {
     this._film = film;
   }
 
+  setOpenPopupHandler(handler) {
+    const title = this._element.querySelector(`.film-card__title`);
+    title.addEventListener(`click`, handler);
+
+    const poster = this._element.querySelector(`.film-card__poster`);
+    poster.addEventListener(`click`, handler);
+
+    const commentsLink = this._element.querySelector(`.film-card__comments`);
+    commentsLink.addEventListener(`click`, handler);
+  }
+
   getTemplate() {
     return createCard(this._film);
   }

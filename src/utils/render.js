@@ -11,39 +11,29 @@ const render = function (component, container) {
 
 const renderCard = function (card, popup, container) {
   const body = document.querySelector(`body`);
-  const cardElement = card.getElement();
-  const popupElement = popup.getElement();
 
-  const closePopup = function (evt) {
+  const closePopupHandler = function (evt) {
     evt.preventDefault();
-    body.removeChild(popupElement);
+    removeElement(popup);
     document.removeEventListener(`keydown`, escDownHandler);
   };
 
   const escDownHandler = function (evt) {
     if (evt.keyCode === KeyCode.ESCAPE) {
-      closePopup(evt);
+      closePopupHandler(evt);
     }
   };
 
   const openPopupHandler = function (evt) {
     evt.preventDefault();
-    render(popupElement, body);
-
-    const closeButton = popupElement.querySelector(`.film-details__close-btn`);
-    closeButton.addEventListener(`click`, closePopup);
-
+    render(popup, body);
+    popup.setClosePopupHandler(closePopupHandler);
     document.addEventListener(`keydown`, escDownHandler);
   };
 
 
-  render(cardElement, container);
-  const title = cardElement.querySelector(`.film-card__title`);
-  title.addEventListener(`click`, openPopupHandler);
-  const poster = cardElement.querySelector(`.film-card__poster`);
-  poster.addEventListener(`click`, openPopupHandler);
-  const commentsLink = cardElement.querySelector(`.film-card__comments`);
-  commentsLink.addEventListener(`click`, openPopupHandler);
+  render(card, container);
+  card.setOpenPopupHandler(openPopupHandler);
 };
 
 const renderCards = function (filmList, container, cardCounter, cardForShowing) {
@@ -53,6 +43,13 @@ const renderCards = function (filmList, container, cardCounter, cardForShowing) 
     const popup = new Popup(film);
     renderCard(card, popup, container);
   });
+};
+
+const removeElement = function (component) {
+  const element = component.getElement();
+  const parent = element.parentElement;
+  parent.removeChild(element);
+  component.removeElement();
 };
 
 export {render, renderCard, renderCards};
