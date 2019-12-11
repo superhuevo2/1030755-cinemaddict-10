@@ -53,7 +53,7 @@ function getComment() {
 }
 
 function getComments() {
-  const count = getRandomInt(1, 5);
+  const count = getRandomInt(0, 5);
   return (Array(...Array(count))
     .map(() => getComment())
   );

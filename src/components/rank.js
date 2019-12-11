@@ -1,5 +1,5 @@
+import AbstractComponent from './AbstractComponent.js';
 import {MinWatchedFilmsForRank} from '../const.js';
-import {createElement} from '../util.js';
 
 
 const getRank = function (filmCount) {
@@ -26,26 +26,14 @@ const createRank = function (filmCount) {
   );
 };
 
-class Rank {
+class Rank extends AbstractComponent {
   constructor(filmCount) {
+    super();
     this._count = filmCount;
-    this._element = null;
   }
 
   getTemplate() {
     return createRank(this._count);
-  }
-
-  getElement() {
-    if (!this._element) {
-      const template = this.getTemplate();
-      this._element = createElement(template);
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

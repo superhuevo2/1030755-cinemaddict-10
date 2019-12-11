@@ -1,4 +1,4 @@
-import {createElement} from '../util.js';
+import AbstractComponent from './AbstractComponent.js';
 
 const getFilmsToFilters = function (filmList) {
   const filters = {
@@ -34,26 +34,14 @@ const createFilmMenu = function (filmList) {
   );
 };
 
-class Menu {
+class Menu extends AbstractComponent {
   constructor(filmList) {
+    super();
     this._filmList = filmList;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmMenu(this._filmList);
-  }
-
-  getElement() {
-    if (!this._element) {
-      const template = this.getTemplate();
-      this._element = createElement(template);
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 
