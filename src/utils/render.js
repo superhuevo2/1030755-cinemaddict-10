@@ -52,4 +52,4 @@ const removeElement = function (component) {
   component.removeElement();
 };
 
-export {render, renderCard, renderCards};
+export {render, renderCard, renderCards, removeElement};
