@@ -1,5 +1,5 @@
 import {PEOPLES, COUNTRIES} from '../const.js';
-import {getRandomInt, getRandomElement} from '../util.js';
+import {getRandomInt, getRandomElement} from '../utils/util.js';
 
 function getPeoples(count) {
   const peoples = new Set();

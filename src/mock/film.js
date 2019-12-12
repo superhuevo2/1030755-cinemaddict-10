@@ -1,5 +1,5 @@
 import {FILMS, POSTERS, GENRES, EMOJIES, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, PEOPLES} from '../const.js';
-import {getRandomInt, getRandomElement} from '../util.js';
+import {getRandomInt, getRandomElement} from '../utils/util.js';
 import {getExtraInfo} from './popup.js';
 
 const SENTENCE_MAX = 6;
@@ -53,7 +53,7 @@ function getComment() {
 }
 
 function getComments() {
-  const count = getRandomInt(1, 5);
+  const count = getRandomInt(0, 5);
   return (Array(...Array(count))
     .map(() => getComment())
   );

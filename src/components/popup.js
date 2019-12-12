@@ -1,5 +1,5 @@
+import AbstractComponent from './AbstractComponent.js';
 import {NUMBER_TO_MONTH, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS} from '../const.js';
-import {createElement} from '../util.js';
 
 const createReleaseDate = function (date) {
   const day = date.getDate();
@@ -195,26 +195,19 @@ const createPopup = function (film) {
 };
 
 
-class Popup {
+class Popup extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+  }
+
+  setClosePopupHandler(handler) {
+    const closeButton = this._element.querySelector(`.film-details__close-btn`);
+    closeButton.addEventListener(`click`, handler);
   }
 
   getTemplate() {
     return createPopup(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      const template = this.getTemplate();
-      this._element = createElement(template);
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getFilmInfo() {
