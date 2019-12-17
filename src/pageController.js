@@ -2,11 +2,11 @@ import {getTopCommentsFilms, getTopRatingFilms} from './sorting.js';
 import {render, renderCards, removeElement} from './utils/render.js';
 import Rank from './components/rank.js';
 import Menu from './components/menu.js';
-import Filter from './components/filter.js';
+import Sort from './components/sort.js';
 import FilmsContainer from './components/filmsContainer.js';
 import TopRatedList from './components/topRatedContainer.js';
 import TopCommentedlist from './components/mostCommentedContainer.js';
-import NoFilms from './components/noFilms.js';
+import NoFilms from './components/NoFilms.js';
 import AllFilmsContainer from './components/allFilmsContainer.js';
 import Button from './components/button.js';
 
@@ -14,6 +14,20 @@ const NUMBER_OF_CARDS_IN_ONE_LOAD = 5;
 const WATCHED_FILMS = 10;
 const CARD_COUNTER_FOR_EXTRA = 0;
 const CARDS_IN_EXTRA = 2;
+const FIRST_FILM = 0;
+
+const sortFilms = function (films, sortType) {
+  switch (sortType) {
+    case `default`:
+      return films;
+    case `date`:
+      return Array.from(films).sort((a, b) => b.releaseDate - a.releaseDate);
+    case `rating`:
+      return Array.from(films).sort((a, b) => b.rating - a.rating);
+    default:
+      return void 0;
+  }
+};
 
 class PageController {
   constructor(container) {
@@ -21,7 +35,7 @@ class PageController {
     this._cardCounter = 0;
     this._rank = new Rank(WATCHED_FILMS);
     this._menu = null;
-    this._filter = new Filter();
+    this._sort = new Sort();
     this._filmsContainer = new FilmsContainer();
     this._noFilms = new NoFilms();
     this._allFilmsContainer = new AllFilmsContainer();
@@ -38,7 +52,14 @@ class PageController {
     this._menu = new Menu(films);
     render(this._menu, main);
 
-    render(this._filter, main);
+    render(this._sort, main);
+    let sortedFilms = sortFilms(films, this._sort.getCurrentSortType());
+    const sortChangeHandler = (sortType) => {
+      sortedFilms = sortFilms(films, sortType);
+      this._allFilmsContainer.getElement().innerHTML = ``;
+      renderCards(sortedFilms, this._allFilmsContainer, FIRST_FILM, this._cardCounter);
+    };
+    this._sort.setSortChangeHandler(sortChangeHandler);
 
     render(this._filmsContainer, main);
 
@@ -51,14 +72,14 @@ class PageController {
       const filmListElement = this._filmsContainer.getElement().querySelector(`.films-list`);
       render(this._allFilmsContainer, filmListElement);
 
-      renderCards(films, this._allFilmsContainer, this._cardCounter, NUMBER_OF_CARDS_IN_ONE_LOAD);
+      renderCards(sortedFilms, this._allFilmsContainer, this._cardCounter, NUMBER_OF_CARDS_IN_ONE_LOAD);
       this._cardCounter += NUMBER_OF_CARDS_IN_ONE_LOAD;
 
       if (films.length > NUMBER_OF_CARDS_IN_ONE_LOAD) {
         render(this._showMoreButton, filmListElement);
 
         const showMoreClickHandler = () => {
-          renderCards(films, this._allFilmsContainer, this._cardCounter, NUMBER_OF_CARDS_IN_ONE_LOAD);
+          renderCards(sortedFilms, this._allFilmsContainer, this._cardCounter, NUMBER_OF_CARDS_IN_ONE_LOAD);
           this._cardCounter += NUMBER_OF_CARDS_IN_ONE_LOAD;
           if (this._cardCounter >= films.length) {
             removeElement(this._showMoreButton);
