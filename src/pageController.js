@@ -6,7 +6,7 @@ import Sort from './components/sort.js';
 import FilmsContainer from './components/filmsContainer.js';
 import TopRatedList from './components/topRatedContainer.js';
 import TopCommentedlist from './components/mostCommentedContainer.js';
-import NoFilms from './components/noFilms.js';
+import NoFilms from './components/NoFilms.js';
 import AllFilmsContainer from './components/allFilmsContainer.js';
 import Button from './components/button.js';
 
