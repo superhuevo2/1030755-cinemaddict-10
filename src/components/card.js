@@ -37,13 +37,14 @@ class Card extends AbstractComponent {
   }
 
   setOpenPopupHandler(handler) {
-    const title = this._element.querySelector(`.film-card__title`);
+    const element = this.getElement();
+    const title = element.querySelector(`.film-card__title`);
     title.addEventListener(`click`, handler);
 
-    const poster = this._element.querySelector(`.film-card__poster`);
+    const poster = element.querySelector(`.film-card__poster`);
     poster.addEventListener(`click`, handler);
 
-    const commentsLink = this._element.querySelector(`.film-card__comments`);
+    const commentsLink = element.querySelector(`.film-card__comments`);
     commentsLink.addEventListener(`click`, handler);
   }
 

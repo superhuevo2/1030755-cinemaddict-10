@@ -1,6 +1,4 @@
 import {KeyCode} from '../const.js';
-import Card from '../components/card.js';
-import Popup from '../components/popup.js';
 
 
 const render = function (component, container) {
@@ -36,14 +34,6 @@ const renderCard = function (card, popup, container) {
   card.setOpenPopupHandler(openPopupHandler);
 };
 
-const renderCards = function (filmList, container, cardCounter, cardForShowing) {
-  const films = filmList.slice(cardCounter, cardCounter + cardForShowing);
-  films.forEach((film) => {
-    const card = new Card(film);
-    const popup = new Popup(film);
-    renderCard(card, popup, container);
-  });
-};
 
 const removeElement = function (component) {
   const element = component.getElement();
@@ -52,4 +42,4 @@ const removeElement = function (component) {
   component.removeElement();
 };
 
-export {render, renderCard, renderCards, removeElement};
+export {render, renderCard, removeElement};

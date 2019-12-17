@@ -1,5 +1,5 @@
 import {genCardMockList} from './mock/film.js';
-import PageController from './pageController.js';
+import PageController from './controllers/pageController.js';
 
 const FILMS_COUNT = 21;
 

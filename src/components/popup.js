@@ -202,7 +202,8 @@ class Popup extends AbstractComponent {
   }
 
   setClosePopupHandler(handler) {
-    const closeButton = this._element.querySelector(`.film-details__close-btn`);
+    const element = this.getElement();
+    const closeButton = element.querySelector(`.film-details__close-btn`);
     closeButton.addEventListener(`click`, handler);
   }
 
