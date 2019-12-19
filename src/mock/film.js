@@ -69,7 +69,7 @@ function genCardMock() {
     poster: getRandomElement(POSTERS),
     comments: getComments(),
     rating: getRating(),
-    isInWachList: Math.random() > 0.5,
+    isInWatchList: Math.random() > 0.5,
     isInHistory: Math.random() > 0.5,
     isInFavorites: Math.random() > 0.5,
     extraInfo: getExtraInfo()
