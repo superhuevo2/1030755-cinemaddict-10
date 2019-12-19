@@ -356,7 +356,7 @@ class Popup extends AbstractSmartComponent {
       this._addedEmojii = evt.target.value;
 
       this.rerender();
-    })
+    });
   }
 }
 
