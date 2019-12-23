@@ -1,14 +1,21 @@
 import AbstractSmartComponent from './AbstractSmartComponents.js';
-import {NUMBER_TO_MONTH, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS} from '../const.js';
+import moment from 'moment';
+moment.relativeTimeThreshold('d', 10000);
+moment.updateLocale('en', {
+  relativeTime : {
+    s  : 'a minute',
+    ss : 'a minute',
+    m:  "a minute",
+    mm: "a few minutes",
+    h:  "an hour",
+    hh: "a few hours",
+    d:  "a day",
+    dd: "%d days"
+  }
+});
 
 const SCORELIST = [`1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`];
 
-const createReleaseDate = (date) => {
-  const day = date.getDate();
-  const month = NUMBER_TO_MONTH[date.getMonth()];
-  const year = date.getFullYear();
-  return `${day} ${month} ${year}`;
-};
 
 const createGenresStr = (genres) => {
   let fragment = ``;
@@ -35,25 +42,6 @@ const createFilmDetails = (infoDict) => {
     }
   }
   return fragment;
-};
-
-const formatDate = (date) => {
-  const interval = Date.now() - date;
-
-  if (interval < MINUTE_IN_MS) {
-    return `now`;
-  } else if (interval <= MINUTE_IN_MS && interval < THREE_MIN_IN_MS) {
-    return `a minute ago`;
-  } else if (interval >= THREE_MIN_IN_MS && interval < HOUR_IN_MS) {
-    return `a few minutes ago`;
-  } else if (interval >= HOUR_IN_MS && interval < TWO_HOUR_IN_MS) {
-    return `a hour ago`;
-  } else if (interval >= TWO_HOUR_IN_MS && interval < DAY_IN_MS) {
-    return `a few hours ago`;
-  } else {
-    const daysAgo = parseInt(interval / DAY_IN_MS, 10);
-    return `${daysAgo} days ago`;
-  }
 };
 
 const createUserScore = (name, poster, userScore) => {
@@ -107,7 +95,7 @@ const createUserScore = (name, poster, userScore) => {
 const createComments = (comments) => {
   let fragment = ``;
   comments.forEach((element) => {
-    const dateStr = formatDate(element.date);
+    const dateStr = moment(element.date).fromNow();
     const template = (
       `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
@@ -136,10 +124,10 @@ const createPopup = (film, isWatched, isInWatchList, isInFavorites, userScore, a
   const directorStr = Array.from(director).join(`, `);
   const writersStr = Array.from(writers).join(`, `);
   const actorsStr = Array.from(actors).join(`, `);
-  const releaseDateStr = createReleaseDate(releaseDate);
+  const releaseDateStr = moment(releaseDate).format(`D MMMM YYYY`);
 
   const genresFragment = createGenresStr(genres);
-  const genreName = genres.size > 1 ? `genres` : `genre`;
+  const genreName = genres.size > 1 ? `Genres` : `Genre`;
   const filmDetailsDict = {
     'Director': directorStr,
     'Writers': writersStr,
