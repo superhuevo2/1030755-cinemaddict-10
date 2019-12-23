@@ -92,7 +92,7 @@ class FilmController {
       isInWatchList: !this._film.isInWatchList
     });
 
-    this._dataChangeHandler(this, this._film, newFilmInfo);
+    this._dataChangeHandler(this, this._film.id, newFilmInfo);
   }
 
   _clickMarkWatchedHandler() {
@@ -100,7 +100,7 @@ class FilmController {
       isInHistory: !this._film.isInHistory
     });
 
-    this._dataChangeHandler(this, this._film, newFilmInfo);
+    this._dataChangeHandler(this, this._film.id, newFilmInfo);
   }
 
   _clickAddFavoritesHandler() {
@@ -108,7 +108,7 @@ class FilmController {
       isInFavorites: !this._film.isInFavorites
     });
 
-    this._dataChangeHandler(this, this._film, newFilmInfo);
+    this._dataChangeHandler(this, this._film.id, newFilmInfo);
   }
 }
 

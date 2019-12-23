@@ -1,8 +1,6 @@
 import {getTopCommentsFilms, getTopRatingFilms} from '../sorting.js';
 import {render, removeElement} from '../utils/render.js';
 import FilmController from './FilmController.js';
-import Rank from '../components/rank.js';
-import Menu from '../components/menu.js';
 import Sort from '../components/sort.js';
 import FilmsContainer from '../components/filmsContainer.js';
 import NoFilms from '../components/NoFilms.js';
@@ -12,7 +10,6 @@ import TopRatedList from '../components/topRatedContainer.js';
 import TopCommentedlist from '../components/mostCommentedContainer.js';
 
 const NUMBER_OF_CARDS_IN_ONE_LOAD = 5;
-const WATCHED_FILMS = 10;
 const CARD_COUNTER_FOR_EXTRA = 0;
 const CARDS_IN_EXTRA = 2;
 const FIRST_FILM = 0;
@@ -41,14 +38,15 @@ const renderCards = (filmList, container, dataChangeHandler, viewChangeHandler, 
 
 
 class PageController {
-  constructor(container) {
+  constructor(filmsModel, container) {
+    this._filmsModel = filmsModel;
     this._container = container;
+
     this._films = null;
     this._filmControllers = [];
     this._topFilmControllers = [];
     this._cardCounter = 0;
-    this._rank = new Rank(WATCHED_FILMS);
-    this._menu = null;
+
     this._sort = new Sort();
     this._filmsContainer = new FilmsContainer();
     this._noFilms = new NoFilms();
@@ -63,20 +61,13 @@ class PageController {
     this._viewChangeHandler = this._viewChangeHandler.bind(this);
   }
 
-  render(films) {
-    this._films = films;
+  render() {
+    const films = this._filmsModel.getFilms();
 
-    const header = this._container.querySelector(`.header`);
-    render(this._rank, header);
-
-    const main = this._container.querySelector(`.main`);
-    this._menu = new Menu(films);
-    render(this._menu, main);
-
-    render(this._sort, main);
+    render(this._sort, this._container);
     this._sort.setSortChangeHandler(this._sortChangeHandler);
 
-    render(this._filmsContainer, main);
+    render(this._filmsContainer, this._container);
 
     if (!films.length) {
       render(this._noFilms, this._filmsContainer);
@@ -112,10 +103,10 @@ class PageController {
     }
   }
 
-  _dataChangeHandler(controller, oldFilmInfo, newFilmInfo) {
-    this._films.some((film, index) => {
-      if (film === oldFilmInfo) {
-        this._films[index] = newFilmInfo;
+  _dataChangeHandler(controller, id, newFilmInfo) {
+    this._filmsModel.getFilms().some((film) => {
+      if (film.id === id) {
+        this._filmsModel.renewFilm(id, newFilmInfo);
         return true;
       }
       return false;
@@ -133,8 +124,9 @@ class PageController {
   }
 
   _sortChangeHandler(sortType) {
+    const films = this._filmsModel.getFilms();
 
-    const sortedFilms = sortFilms(this._films, sortType);
+    const sortedFilms = sortFilms(films, sortType);
     this._allFilmsContainer.getElement().innerHTML = ``;
     this._filmControllers = renderCards(sortedFilms, this._allFilmsContainer, this._dataChangeHandler, this._viewChangeHandler, FIRST_FILM, this._cardCounter);
 

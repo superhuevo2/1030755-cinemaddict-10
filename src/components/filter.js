@@ -8,7 +8,7 @@ const getFilmsToFilters = function (filmList) {
   };
 
   filmList.forEach((element) => {
-    if (element.isInWachList) {
+    if (element.isInWatchList) {
       filters[`watchListCount`] += 1;
     }
     if (element.isInHistory) {
@@ -34,7 +34,7 @@ const createFilmMenu = function (filmList) {
   );
 };
 
-class Menu extends AbstractComponent {
+class Filter extends AbstractComponent {
   constructor(filmList) {
     super();
     this._filmList = filmList;
@@ -45,4 +45,4 @@ class Menu extends AbstractComponent {
   }
 }
 
-export default Menu;
+export default Filter;
