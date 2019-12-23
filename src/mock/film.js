@@ -4,6 +4,16 @@ import {getExtraInfo} from './popup.js';
 
 const SENTENCE_MAX = 6;
 
+function* genId() {
+  let result = 1;
+
+  while (true) {
+    yield result++;
+  }
+}
+
+const generatorId = genId();
+
 function getRuntime() {
   const hours = getRandomInt(0, 3);
   let minutes = getRandomInt(0, 60);
@@ -69,10 +79,11 @@ function genCardMock() {
     poster: getRandomElement(POSTERS),
     comments: getComments(),
     rating: getRating(),
-    isInWachList: Math.random() > 0.5,
+    isInWatchList: Math.random() > 0.5,
     isInHistory: Math.random() > 0.5,
     isInFavorites: Math.random() > 0.5,
-    extraInfo: getExtraInfo()
+    extraInfo: getExtraInfo(),
+    id: generatorId.next().value
   };
 }
 
