@@ -1,21 +1,22 @@
 import AbstractSmartComponent from './AbstractSmartComponents.js';
 import moment from 'moment';
-moment.relativeTimeThreshold('d', 10000);
-moment.updateLocale('en', {
-  relativeTime : {
-    s  : 'a minute',
-    ss : 'a minute',
-    m:  "a minute",
-    mm: "a few minutes",
-    h:  "an hour",
-    hh: "a few hours",
-    d:  "a day",
-    dd: "%d days"
-  }
-});
 
 const SCORELIST = [`1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`];
 
+
+moment.relativeTimeThreshold(`d`, 10000);
+moment.updateLocale(`en`, {
+  relativeTime: {
+    s: `now`,
+    ss: `now`,
+    m: `a minute`,
+    mm: `a few minutes`,
+    h: `an hour`,
+    hh: `a few hours`,
+    d: `a day`,
+    dd: `%d days`
+  }
+});
 
 const createGenresStr = (genres) => {
   let fragment = ``;
