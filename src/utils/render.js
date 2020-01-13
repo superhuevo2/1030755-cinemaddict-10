@@ -9,7 +9,9 @@ const render = (component, container) => {
 const removeElement = (component) => {
   const element = component.getElement();
   const parent = element.parentElement;
-  parent.removeChild(element);
+  if (parent) {
+    parent.removeChild(element);
+  }
   component.removeElement();
 };
 

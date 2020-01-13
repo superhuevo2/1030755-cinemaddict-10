@@ -1,6 +1,7 @@
-import {render, replaceComponent} from '../utils/render.js';
+import {render, replaceComponent, removeElement} from '../utils/render.js';
 import Card from '../components/card.js';
 import Popup from '../components/popup.js';
+import {FILTERS} from '../const.js';
 
 
 class FilmController {
@@ -56,6 +57,12 @@ class FilmController {
     }
   }
 
+  remove() {
+    removeElement(this._card);
+    removeElement(this._popup);
+
+  }
+
   closePopup() {
     if (this._isPopupOpened) {
       this._closePopupHandler();
@@ -92,7 +99,7 @@ class FilmController {
       isInWatchList: !this._film.isInWatchList
     });
 
-    this._dataChangeHandler(this, this._film.id, newFilmInfo);
+    this._dataChangeHandler(this, this._film.id, newFilmInfo, FILTERS.WATCHLIST);
   }
 
   _clickMarkWatchedHandler() {
@@ -100,7 +107,7 @@ class FilmController {
       isInHistory: !this._film.isInHistory
     });
 
-    this._dataChangeHandler(this, this._film.id, newFilmInfo);
+    this._dataChangeHandler(this, this._film.id, newFilmInfo, FILTERS.HISTORY);
   }
 
   _clickAddFavoritesHandler() {
@@ -108,7 +115,7 @@ class FilmController {
       isInFavorites: !this._film.isInFavorites
     });
 
-    this._dataChangeHandler(this, this._film.id, newFilmInfo);
+    this._dataChangeHandler(this, this._film.id, newFilmInfo, FILTERS.FAVORITES);
   }
 }
 

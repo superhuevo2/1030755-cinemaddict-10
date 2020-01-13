@@ -1,18 +1,14 @@
 import AbstractComponent from './AbstractComponent.js';
-const SortType = {
-  DEFAULT: `default`,
-  DATE: `date`,
-  RATING: `rating`
-};
+import {SORT_TYPES} from '../const.js';
 
 const ACTIVE_BTN_CLASS = `sort__button--active`;
 
 const createSort = function () {
   return (
     `<ul class="sort">
-      <li><a href="#" class="sort__button sort__button--active" data-sort="${SortType.DEFAULT}">Sort by default</a></li>
-      <li><a href="#" class="sort__button" data-sort="${SortType.DATE}">Sort by date</a></li>
-      <li><a href="#" class="sort__button" data-sort="${SortType.RATING}">Sort by rating</a></li>
+      <li><a href="#" class="sort__button sort__button--active" data-sort="${SORT_TYPES.DEFAULT}">Sort by default</a></li>
+      <li><a href="#" class="sort__button" data-sort="${SORT_TYPES.DATE}">Sort by date</a></li>
+      <li><a href="#" class="sort__button" data-sort="${SORT_TYPES.RATING}">Sort by rating</a></li>
     </ul>`
   );
 };
@@ -20,10 +16,10 @@ const createSort = function () {
 class Sort extends AbstractComponent {
   constructor() {
     super();
-    this._currentSort = SortType.DEFAULT;
+    this._currentSort = SORT_TYPES.DEFAULT;
   }
   setSortChangeHandler(handler) {
-    this._element.addEventListener(`click`, (evt) => {
+    this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
       const selectedSort = evt.target.getAttribute(`data-sort`);
       if (selectedSort === this._currentSort) {
@@ -38,9 +34,11 @@ class Sort extends AbstractComponent {
     });
 
   }
+
   getTemplate() {
     return createSort();
   }
+
   getCurrentSortType() {
     return this._currentSort;
   }

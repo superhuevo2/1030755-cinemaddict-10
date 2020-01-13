@@ -1,4 +1,4 @@
-import {getRandomElement} from "./utils/util.js";
+import {getRandomElement} from "./util.js";
 
 const MAX_FILMS = 2;
 
