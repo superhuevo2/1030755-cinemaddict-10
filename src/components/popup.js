@@ -52,7 +52,7 @@ const createUserScore = (name, poster, userScore) => {
   SCORELIST.forEach((score) => {
     let checkedAttr;
 
-    if (score === userScore) {
+    if (score === String(userScore)) {
       checkedAttr = `checked`;
     } else {
       checkedAttr = ``;
@@ -100,7 +100,7 @@ const createComments = (comments) => {
     const template = (
       `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${element.emojii}" width="55" height="55" alt="emoji">
+        <img src="./images/emoji/${element.emojii}.png" width="55" height="55" alt="emoji">
       </span>
       <div>
         <p class="film-details__comment-text">${element.message}</p>
@@ -117,7 +117,7 @@ const createComments = (comments) => {
   return fragment;
 };
 
-const createPopup = (film, isWatched, isInWatchList, isInFavorites, userScore, addedEmojii) => {
+const createPopup = (film, isWatched, isInWatchList, isInFavorites, userScore, addedEmojii, addedMessage) => {
   const {name, releaseDate, runtime, genres, description, poster, rating} = film;
   const {director, writers, actors, country, age} = film[`extraInfo`];
   const commentsList = film[`comments`];
@@ -214,7 +214,7 @@ const createPopup = (film, isWatched, isInWatchList, isInFavorites, userScore, a
               <div for="add-emoji" class="film-details__add-emoji-label">${addedEmojiiMarkup}</div>
 
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${addedMessage}</textarea>
               </label>
 
               <div class="film-details__emoji-list">
@@ -254,13 +254,17 @@ class Popup extends AbstractSmartComponent {
     this._isInWatchList = film.isInWatchList;
     this._isWatched = film.isInHistory;
     this._isInFavorites = film.isInFavorites;
-    this._userScore = null;
+    this._userScore = film.userScore;
+
     this._addedEmojii = null;
+    this._addedMessage = ``;
 
     this._closePopupHandler = null;
     this._clickAddWatchListHandler = null;
     this._clickMarkWatchedHandler = null;
     this._clickAddFavoritesHandler = null;
+    this._clickRatingHandler = null;
+    this._removeCommentHandler = null;
 
     this._subscribeOnEvents = this._subscribeOnEvents.bind(this);
     this._subscribeOnEvents();
@@ -272,6 +276,7 @@ class Popup extends AbstractSmartComponent {
     this.setClickAddWatchListHandler(this._clickAddWatchListHandler);
     this.setClickMarkWatchedHandler(this._clickMarkWatchedHandler);
     this.setClickAddFavoritesHandler(this._clickAddFavoritesHandler);
+    this.setClickRatingHandlers(this._clickRatingHandler);
   }
 
   setClosePopupHandler(handler) {
@@ -311,40 +316,83 @@ class Popup extends AbstractSmartComponent {
     });
   }
 
-  getTemplate() {
-    return createPopup(this._film, this._isWatched, this._isInWatchList, this._isInFavorites, this._userScore, this._addedEmojii);
-  }
+  setClickRatingHandlers(handler) {
+    this._clickRatingHandler = handler;
 
-  _reset() {
-    this._addedEmojii = null;
-
-    this.rerender();
-  }
-
-  _subscribeOnEvents() {
     const element = this.getElement();
-
     if (this._isWatched) {
       const ratingControls = element.querySelector(`.film-details__user-rating-score`);
       ratingControls.addEventListener(`change`, (evt) => {
         this._userScore = evt.target.value;
 
-        this.rerender();
+        handler();
       });
 
       const resetButton = element.querySelector(`.film-details__watched-reset`);
       resetButton.addEventListener(`click`, () => {
         this._userScore = null;
 
-        this.rerender();
+        handler();
       });
     }
+  }
+
+  setRemoveCommentHandler(handler) {
+    this._removeCommentHandler = handler;
+
+    const element = this.getElement();
+    element.querySelectorAll(`.film-details__comment-delete`).forEach((btn, index) => {
+      btn.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        handler(index);
+      });
+    });
+
+  }
+
+  getTemplate() {
+    return createPopup(this._film, this._isWatched, this._isInWatchList, this._isInFavorites, this._userScore, this._addedEmojii, this._addedMessage);
+  }
+
+  getUserScore() {
+    return this._userScore;
+  }
+
+  saveComment() {
+    const comment = {
+      name: `random name`,
+      message: this._addedMessage,
+      emojii: this._addedEmojii,
+      date: new Date()
+    };
+
+    const isValidComment = (
+      this._addedEmojii && this._addedMessage.length > 2 && Number(this._addedMessage) !== 0
+    );
+    if (isValidComment) {
+      this._addedEmojii = null;
+      this._addedMessage = ``;
+
+      return comment;
+    }
+
+    return null;
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
 
     const emojies = element.querySelector(`.film-details__emoji-list`);
     emojies.addEventListener(`change`, (evt) => {
       this._addedEmojii = evt.target.value;
 
       this.rerender();
+    });
+
+    const message = element.querySelector(`.film-details__comment-input`);
+    message.addEventListener(`input`, (evt) => {
+      this._addedMessage = evt.target.value;
     });
   }
 }

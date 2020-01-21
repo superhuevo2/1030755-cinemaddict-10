@@ -53,13 +53,22 @@ class Card extends AbstractComponent {
   setOpenPopupHandler(handler) {
     const element = this.getElement();
     const title = element.querySelector(`.film-card__title`);
-    title.addEventListener(`click`, handler);
+    title.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      handler();
+    });
 
     const poster = element.querySelector(`.film-card__poster`);
-    poster.addEventListener(`click`, handler);
+    poster.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      handler();
+    });
 
     const commentsLink = element.querySelector(`.film-card__comments`);
-    commentsLink.addEventListener(`click`, handler);
+    commentsLink.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      handler();
+    });
   }
 
   setClickAddWatchListHandler(handler) {

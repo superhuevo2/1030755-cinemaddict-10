@@ -1,7 +1,7 @@
 import {render, replaceComponent, removeElement} from '../utils/render.js';
 import Card from '../components/card.js';
 import Popup from '../components/popup.js';
-import {FILTERS} from '../const.js';
+import {FIELDS} from '../const.js';
 
 
 class FilmController {
@@ -26,6 +26,10 @@ class FilmController {
     this._clickAddWatchListHandler = this._clickAddWatchListHandler.bind(this);
     this._clickMarkWatchedHandler = this._clickMarkWatchedHandler.bind(this);
     this._clickAddFavoritesHandler = this._clickAddFavoritesHandler.bind(this);
+
+    this._clickRatingHandler = this._clickRatingHandler.bind(this);
+    this._sendCommentHandler = this._sendCommentHandler.bind(this);
+    this._removeCommentHandler = this._removeCommentHandler.bind(this);
   }
 
   render(film) {
@@ -49,6 +53,9 @@ class FilmController {
     this._card.setClickAddFavoritesHandler(this._clickAddFavoritesHandler);
     this._popup.setClickAddFavoritesHandler(this._clickAddFavoritesHandler);
 
+    this._popup.setClickRatingHandlers(this._clickRatingHandler);
+    this._popup.setRemoveCommentHandler(this._removeCommentHandler);
+
     if (oldCard && oldPopup) {
       replaceComponent(this._card, oldCard);
       replaceComponent(this._popup, oldPopup);
@@ -57,10 +64,33 @@ class FilmController {
     }
   }
 
+  renderPopup(film) {
+    this._film = film;
+
+    this._popup = new Popup(film);
+
+    this._popup.setClosePopupHandler(this._closePopupHandler);
+    this._popup.setClickAddWatchListHandler(this._clickAddWatchListHandler);
+    this._popup.setClickMarkWatchedHandler(this._clickMarkWatchedHandler);
+    this._popup.setClickAddFavoritesHandler(this._clickAddFavoritesHandler);
+    this._popup.setRemoveCommentHandler(this._removeCommentHandler);
+
+    render(this._popup, this._body);
+  }
+
+  rerender() {
+    this.reset();
+    this.render(this._film);
+  }
+
+  reset() {
+    this._card = null;
+    this._popup = null;
+  }
+
   remove() {
     removeElement(this._card);
     removeElement(this._popup);
-
   }
 
   closePopup() {
@@ -69,13 +99,21 @@ class FilmController {
     }
   }
 
-  _openPopupHandler(evt) {
-    evt.preventDefault();
+  openPopup() {
+    this._openPopupHandler();
+  }
+
+  isPopupOpen() {
+    return this._isPopupOpened;
+  }
+
+  _openPopupHandler() {
 
     this._viewChangeHandler();
     render(this._popup, this._body);
     this._isPopupOpened = true;
 
+    document.addEventListener(`keydown`, this._sendCommentHandler);
     document.addEventListener(`keydown`, this._escDownHandler);
   }
 
@@ -85,7 +123,10 @@ class FilmController {
     const parent = this._popup.getElement().parentElement;
     parent.removeChild(this._popup.getElement());
 
+    document.removeEventListener(`keydown`, this._sendCommentHandler);
     document.removeEventListener(`keydown`, this._escDownHandler);
+
+
   }
 
   _escDownHandler(evt) {
@@ -99,15 +140,16 @@ class FilmController {
       isInWatchList: !this._film.isInWatchList
     });
 
-    this._dataChangeHandler(this, this._film.id, newFilmInfo, FILTERS.WATCHLIST);
+    this._dataChangeHandler(this, this._film, newFilmInfo, FIELDS.WATCHLIST);
   }
 
   _clickMarkWatchedHandler() {
+
     const newFilmInfo = Object.assign({}, this._film, {
       isInHistory: !this._film.isInHistory
     });
 
-    this._dataChangeHandler(this, this._film.id, newFilmInfo, FILTERS.HISTORY);
+    this._dataChangeHandler(this, this._film, newFilmInfo, FIELDS.HISTORY);
   }
 
   _clickAddFavoritesHandler() {
@@ -115,7 +157,26 @@ class FilmController {
       isInFavorites: !this._film.isInFavorites
     });
 
-    this._dataChangeHandler(this, this._film.id, newFilmInfo, FILTERS.FAVORITES);
+    this._dataChangeHandler(this, this._film, newFilmInfo, FIELDS.FAVORITES);
+  }
+
+  _clickRatingHandler() {
+    const userScore = this._popup.getUserScore();
+
+    this._dataChangeHandler(this, this._film, userScore, FIELDS.USER_SCORE);
+  }
+
+  _sendCommentHandler(evt) {
+    if (evt.ctrlKey && evt.key === `Enter`) {
+      const comment = this._popup.saveComment();
+      if (comment) {
+        this._dataChangeHandler(this, this._film, comment, FIELDS.COMMENT_NEW);
+      }
+    }
+  }
+
+  _removeCommentHandler(indexOfComment) {
+    this._dataChangeHandler(this, this._film, indexOfComment, FIELDS.COMMENT_FOR_DELETE);
   }
 }
 

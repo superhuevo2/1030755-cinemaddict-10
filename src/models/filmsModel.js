@@ -8,6 +8,7 @@ class FilmsModel {
 
     this._filterType = FILTERS.ALL;
 
+    // this._getFilmById = this._getFilmById.bind(this);
     this._dataChangeHandler = null;
   }
 
@@ -45,15 +46,51 @@ class FilmsModel {
     return getTopCommentsFilms(this._filteredFilms);
   }
 
-  renewFilm(id, newFilmInfo) {
-    this._films.some((film, i) => {
-      if (film.id === id) {
-        this._films[i] = newFilmInfo;
-        this._dataChangeHandler();
-        return true;
+  getFilmById(id) {
+    return this._films[this._getFilmIndexById(id)];
+  }
+
+  updateFilmInfo(id, newFilmInfo) {
+    this._films[this._getFilmIndexById(id)] = newFilmInfo;
+    this._dataChangeHandler();
+  }
+
+  addComment(id, comment) {
+    this._films[this._getFilmIndexById(id)].comments.unshift(comment);
+  }
+
+  removeComment(id, commentIndex) {
+    const filmIndex = this._getFilmIndexById(id);
+
+    this._films[filmIndex].comments = [].concat(
+        this._films[filmIndex].comments.slice(0, commentIndex),
+        this._films[filmIndex].comments.slice(commentIndex + 1)
+    );
+  }
+
+  addUserScore(id, userScore) {
+    const filmIndex = this._getFilmIndexById(id);
+    const score = Number(userScore);
+    this._films[filmIndex].userScore = score;
+    if (score) {
+      if (!this._films[filmIndex].oldRating) {
+        this._films[filmIndex].oldRating = Number(this._films[filmIndex].rating);
       }
-      return false;
-    });
+
+      this._films[filmIndex].rating = String((this._films[filmIndex].oldRating + score) / 2);
+
+    } else {
+      this._films[filmIndex].rating = String(this._films[filmIndex].oldRating);
+    }
+  }
+
+  removeUserScore(id) {
+    const filmIndex = this._getFilmIndexById(id);
+    this._films[filmIndex].userScore = null;
+    if (this._films[filmIndex].oldRating) {
+      this._films[filmIndex].rating = this._films[filmIndex].oldRating;
+    }
+    this._films[filmIndex].oldRating = null;
   }
 
   getFilterType() {
@@ -72,6 +109,18 @@ class FilmsModel {
 
   setFilterChangeHandler(handler) {
     this._filterChangeHandler = handler;
+  }
+
+  _getFilmIndexById(id) {
+    let index;
+    this._films.some((film, i) => {
+      if (film.id === id) {
+        index = i;
+        return true;
+      }
+      return false;
+    });
+    return index;
   }
 }
 

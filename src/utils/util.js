@@ -29,4 +29,5 @@ const createElement = (template) => {
   return element.firstChild;
 };
 
+
 export {getRandomInt, getRandomElement, formatTime, createElement};

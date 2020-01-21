@@ -61,11 +61,11 @@ const NUMBER_TO_MONTH = {
 };
 
 const EMOJIES = [
-  `angry.png`,
-  `puke.png`,
-  `sleeping.png`,
-  `smile.png`,
-  `trophy.png`
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`,
+  `trophy`
 ];
 const MinWatchedFilmsForRank = {
   NOVICE: 1,
@@ -88,10 +88,24 @@ const FILTERS = {
   HISTORY: `history`,
   FAVORITES: `favorites`
 };
+const FIELDS = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`,
+  COMMENT_NEW: `newComments`,
+  COMMENT_FOR_DELETE: `commentsForDel`,
+  USER_SCORE: `score`
+};
 const SORT_TYPES = {
   DEFAULT: `default`,
   DATE: `date`,
   RATING: `rating`
 };
 
-export {FILMS, POSTERS, GENRES, PEOPLES, COUNTRIES, NUMBER_TO_MONTH, EMOJIES, MAX_DESCRIPTION_LENGTH, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS, MinWatchedFilmsForRank, FILTERS, SORT_TYPES};
+const RENDER_POSITION = {
+  AFTER_BEGIN: `afterbegin`,
+  BEFORE_END: `beforeend`
+};
+
+export {FILMS, POSTERS, GENRES, PEOPLES, COUNTRIES, NUMBER_TO_MONTH, EMOJIES, MAX_DESCRIPTION_LENGTH, LOREM_IPSUM, JANUARY_01_1925_IN_MS, NOVEMBER_20_2019_IN_MS, DAY_IN_MS, TWO_HOUR_IN_MS, HOUR_IN_MS, THREE_MIN_IN_MS, MINUTE_IN_MS, MinWatchedFilmsForRank, FILTERS, SORT_TYPES, RENDER_POSITION, FIELDS};

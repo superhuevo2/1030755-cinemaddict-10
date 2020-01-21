@@ -1,8 +1,20 @@
+import {RENDER_POSITION} from '../const.js';
 
-const render = (component, container) => {
+
+const render = (component, container, renderPosition = RENDER_POSITION.BEFORE_END) => {
   const element = component.getElement ? component.getElement() : component;
   const containerElement = container.getElement ? container.getElement() : container;
-  containerElement.append(element);
+
+  switch (renderPosition) {
+    case RENDER_POSITION.AFTER_BEGIN:
+      containerElement.prepend(element);
+      break;
+    case RENDER_POSITION.BEFORE_END:
+      containerElement.append(element);
+      break;
+    default:
+      break;
+  }
 };
 
 
@@ -20,7 +32,7 @@ const replaceComponent = (newComponent, oldComponent) => {
   const oldElement = oldComponent.getElement();
   const parentElement = oldElement.parentElement;
 
-  if (newElement && oldElement && parentElement.contains(oldElement)) {
+  if (newElement && oldElement && parentElement && parentElement.contains(oldElement)) {
     parentElement.replaceChild(newElement, oldElement);
   }
 };
