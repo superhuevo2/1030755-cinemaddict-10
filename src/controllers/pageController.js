@@ -62,7 +62,6 @@ class PageController {
     this._sortChangeHandler = this._sortChangeHandler.bind(this);
     this._dataChangeHandler = this._dataChangeHandler .bind(this);
     this._viewChangeHandler = this._viewChangeHandler.bind(this);
-    this._categoryChangeHandler = this._categoryChangeHandler.bind(this);
 
     this._sort.setSortChangeHandler(this._sortChangeHandler);
   }
@@ -146,13 +145,13 @@ class PageController {
         break;
     }
 
-    const index = this._filmControllers.indexOf(controller);
     const film = this._filmsModel.getFilmById(oldFilmInfo.id);
 
     if (this._activeFilter === field) {
       controller.remove();
       const films = this._filmsModel.getFilteredFilms();
 
+      const index = this._filmControllers.indexOf(controller);
       const isFilmOnPage = (index !== -1);
 
       if (isFilmOnPage) {
@@ -205,15 +204,6 @@ class PageController {
     controllers.forEach((controller) => {
       controller.closePopup();
     });
-  }
-
-  _categoryChangeHandler(isInWatchlist, isInHistory, isInFavorites) {
-    if ((this._activeFilter === FILTERS.WATCHLIST && !isInWatchlist)
-        || (this._activeFilter === FILTERS.HISTORY && !isInHistory)
-        || (this._activeFilter === FILTERS.FAVORITES && !isInFavorites)
-    ) {
-      this._sortChangeHandler(this._activeFilter);
-    }
   }
 
   _sortChangeHandler(sortType) {
